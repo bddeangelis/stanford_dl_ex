@@ -22,3 +22,13 @@ function [f,g] = logistic_regression(theta, X,y)
   %        up the gradients (df/dtheta) for each example. Store the result in 'g'.
   %
 %%% YOUR CODE HERE %%%
+
+keyboard;
+
+% Compute the objective function
+% f = 
+
+% Compute the gradient for the objective function
+% g = 
+
+end

@@ -7,6 +7,8 @@ function [f,g] = linear_regression(theta, X,y)
   %   y - The target value for each example.  y(j) is the target for example j.
   %
   
+%   keyboard;
+  
   m=size(X,2);
   n=size(X,1);
 
@@ -22,3 +24,14 @@ function [f,g] = linear_regression(theta, X,y)
   %        computed gradient in 'g'.
   
 %%% YOUR CODE HERE %%%
+
+% Calculate an intermediate value used in both f and g
+z = theta'*X-y;
+
+% Compute the cost function
+f = .5*sum(z.^2);
+
+% Compute the gradient of the cost function
+g = sum(X.*repmat(z,n,1),2);
+
+end
