@@ -31,10 +31,10 @@ options = struct('MaxIter', 200);
 % We only use num_classes-1 columns, since the last column is always assumed 0.
 theta = rand(n,num_classes-1)*0.001;
 
-% Check the gradient calculation
-% NOTE: THIS IS USEFUL FOR KNOWING WHETHER OR NOT YOU ARE CALCULATING THE GRADIENT CORRECTLY
-% Test the accuarcy of the gradients calculated
-average_error = grad_check(@softmax_regression_vec, theta, 40, train.X, train.y)
+% % Check the gradient calculation
+% % NOTE: THIS IS USEFUL FOR KNOWING WHETHER OR NOT YOU ARE CALCULATING THE GRADIENT CORRECTLY
+% % Test the accuarcy of the gradients calculated
+% average_error = grad_check(@softmax_regression_vec, theta, 40, train.X, train.y)
 
 % Call minFunc with the softmax_regression_vec.m file as objective.
 %
@@ -45,6 +45,8 @@ tic;
 theta(:)=minFunc(@softmax_regression_vec, theta(:), options, train.X, train.y);
 fprintf('Optimization took %f seconds.\n', toc);
 theta=[theta, zeros(n,1)]; % expand theta to include the last class.
+
+% keyboard;
 
 % Print out training accuracy.
 tic;
