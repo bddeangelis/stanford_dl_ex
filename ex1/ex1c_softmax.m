@@ -31,6 +31,11 @@ options = struct('MaxIter', 200);
 % We only use num_classes-1 columns, since the last column is always assumed 0.
 theta = rand(n,num_classes-1)*0.001;
 
+% Check the gradient calculation
+% NOTE: THIS IS USEFUL FOR KNOWING WHETHER OR NOT YOU ARE CALCULATING THE GRADIENT CORRECTLY
+% Test the accuarcy of the gradients calculated
+average_error = grad_check(@softmax_regression_vec, theta, 40, train.X, train.y)
+
 % Call minFunc with the softmax_regression_vec.m file as objective.
 %
 % TODO:  Implement batch softmax regression in the softmax_regression_vec.m
