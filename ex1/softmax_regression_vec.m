@@ -21,12 +21,30 @@ function [f,g] = softmax_regression(theta, X,y)
   f = 0;
   g = zeros(size(theta));
 
+  keyboard;
+  
   %
   % TODO:  Compute the softmax objective function and gradient using vectorized code.
   %        Store the objective function value in 'f', and the gradient in 'g'.
   %        Before returning g, make sure you form it back into a vector with g=g(:);
   %
 %%% YOUR CODE HERE %%%
+
+  % Calculate the individual probabilities
+  p = exp(theta'*X);
   
+  % Isolate the probabilities that you want to keep
+  I=sub2ind(size(p), 1:size(p,1), y);
+  values = A(I);
+
+  log(values/ sum(p,1) );
+  
+%   sum(exp(theta'*X),1);
+
+  % Calculate the cost function
+  f = sum(log(values/ sum(p,1)));
+    
   g=g(:); % make gradient a vector for minFunc
+  
+end
 
