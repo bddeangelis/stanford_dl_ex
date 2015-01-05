@@ -7,6 +7,7 @@ function [f,g] = logistic_regression_vec(theta, X,y)
   %   y - The label for each example.  y(j) is the j'th example's label.
   %
   m=size(X,2);
+  n = size(X,1);
   
   % initialize objective value and gradient.
   f = 0;
@@ -19,3 +20,17 @@ function [f,g] = logistic_regression_vec(theta, X,y)
   %        Store the objective function value in 'f', and the gradient in 'g'.
   %
 %%% YOUR CODE HERE %%%
+
+% keyboard;
+
+% Calculate the sigmoid function values
+h = 1./(1+exp(-theta'*X));
+
+% Compute the objective function
+f = -sum(y.*log(h) + (1-y).*log(1-h));
+
+% Compute the gradient for the objective function
+% g = sum(X.*repmat(h-y,n,1),2);
+g = X*(h-y)';
+
+end

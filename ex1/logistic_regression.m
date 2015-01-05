@@ -8,6 +8,7 @@ function [f,g] = logistic_regression(theta, X,y)
   %
 
   m=size(X,2);
+  n=size(X,1);
   
   % initialize objective value and gradient.
   f = 0;
@@ -23,12 +24,16 @@ function [f,g] = logistic_regression(theta, X,y)
   %
 %%% YOUR CODE HERE %%%
 
-keyboard;
+% keyboard;
+
+% Calculate the sigmoid function values
+h = 1./(1+exp(-theta'*X));
 
 % Compute the objective function
-% f = 
+f = -sum(y.*log(h) + (1-y).*log(1-h));
 
 % Compute the gradient for the objective function
-% g = 
+% g = sum(X.*repmat(h-y,n,1),2);
+g = X*(h-y)';
 
 end

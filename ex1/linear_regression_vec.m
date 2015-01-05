@@ -7,6 +7,7 @@ function [f,g] = linear_regression_vec(theta, X,y)
   %   y - The target value for each example.  y(j) is the target for example j.
   %
   m=size(X,2);
+  n = size(X,1);
   
   % initialize objective value and gradient.
   f = 0;
@@ -18,3 +19,16 @@ function [f,g] = linear_regression_vec(theta, X,y)
   %        Store the objective function value in 'f', and the gradient in 'g'.
   %
 %%% YOUR CODE HERE %%%
+
+% Calculate an intermediate value used in both f and g
+z = theta'*X-y;
+
+% Compute the cost function
+f = .5*sum(z.^2);
+
+% Compute the gradient of the cost function
+% g = sum(X.*repmat(z,n,1),2);
+g = X*z';
+
+
+end
