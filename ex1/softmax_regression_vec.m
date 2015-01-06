@@ -39,7 +39,11 @@ function [f,g] = softmax_regression(theta, X,y)
   
   % Get the groundTruth associated with the labeled data
   groundTruth = full(sparse(y, 1:m, 1));
-  
+% % %   % Alternative
+% % %   I = sub2ind(size(normH), y, 1:size(normH,2));
+% % %   groundTruth = zeros(size(normH));
+% % %   groundTruth(I) = 1;
+
   % Calculate the cost function
   f = -sum(sum(groundTruth .* log(normH)));
   
@@ -51,48 +55,6 @@ function [f,g] = softmax_regression(theta, X,y)
   
   % Reshape the gradient into a vector  
   g=g(:); % make gradient a vector for minFunc
-  
-  
-%   % Isolate the hypothesized probabilities corresponding to the correct labels
-%   I=sub2ind(size(normH), y, 1:size(normH,2));
-%   labelH = normH(I); % pull from the normalized values !!! THIS IS WHY IT WASN'T WORKING
-% %   
-% %   % Generate a truth table associated with where the labels in y are correct
-%   truthTable = zeros(size(normH));
-%   truthTable(I) = 1;
-%   
-% %   % Try Dan Luu's way
-% %   groundTruth = full(sparse(y, 1:m, 1));
-% %   temp = exp(theta'*X);
-% % %   td = theta' * X;
-% % % %   td = bsxfun(@minus, td, max(td));
-% % %   temp = exp(td);
-% % %   
-% %     denominator = sum(temp);
-% %     p = bsxfun(@rdivide, temp, denominator);
-% %     f = (-1/m) * sum(sum(groundTruth .* log(p)));
-% %     g = (-1/m) * (groundTruth - p) * X';
-% %     g = g';
-% %     
-% %   keyboard;
-%     
-%     
-%   % Calculate the cost function 
-%   % Are these supposed to be averages rather than sums? are we doing something in batch here?
-% %   f = (-1/m)*sum(log(labelH));
-%   f =       -sum(log(labelH));
-%   
-%   % Calculate the gradient
-%   % Are these supposed to be averages rather than sums? are we doing something in batch here?
-% %   g = (-1/m)*X*(truthTable-normH)';
-%   g =       -X*(truthTable-normH)';
-% 
-%   
-%   % Delete off the last column from g
-%   g = g(:,1:end-1);
-%   
-%   % Reshape the gradient into a vector  
-%   g=g(:); % make gradient a vector for minFunc
   
 end
 
