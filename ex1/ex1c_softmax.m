@@ -40,7 +40,7 @@ tic;
 theta(:)=minFunc(@softmax_regression_vec, theta(:), options, train.X, train.y);
 fprintf('Optimization took %f seconds.\n', toc);
 
-keyboard;
+% keyboard;
 % Check the gradient calculation
 % NOTE: THIS IS USEFUL FOR KNOWING WHETHER OR NOT YOU ARE CALCULATING THE GRADIENT CORRECTLY
 % Test the accuarcy of the gradients calculated
