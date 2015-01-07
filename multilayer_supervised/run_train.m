@@ -43,6 +43,13 @@ options.display = 'iter';
 options.maxFunEvals = 1e6;
 options.Method = 'lbfgs';
 
+%% Check gradients
+
+% Check the gradient calculation
+% NOTE: THIS IS USEFUL FOR KNOWING WHETHER OR NOT YOU ARE CALCULATING THE GRADIENT CORRECTLY
+% Test the accuarcy of the gradients calculated
+average_error = grad_check(@supervised_dnn_cost, params, 40, ei, data_train, labels_train)
+
 %% run training
 [opt_params,opt_value,exitflag,output] = minFunc(@supervised_dnn_cost,...
     params,options,ei, data_train, labels_train);
