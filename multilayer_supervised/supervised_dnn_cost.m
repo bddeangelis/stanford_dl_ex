@@ -105,17 +105,20 @@ end;
           if strcmp(ei.activation_fun, 'logistic')
               
               % Make the assignment for the error term
-              deltaErr{kk} = groundTruth-hAct{kk}.* hAct{kk}.*(1-hAct{kk});
+              deltaErr{kk} = groundTruth-hAct{kk}; % From an article it looks like this is the correct gradient for the given cross-entropy cost function?
+%               deltaErr{kk} = groundTruth-hAct{kk}.* hAct{kk}.*(1-hAct{kk});
               
           end
-          % Condition for all hidden layers
+          
+      % Condition for all hidden layers
       else
           
           % Formula for delta terms are different depending on the non-linearity selected
           if strcmp(ei.activation_fun, 'logistic')
               
               % Make the assignment for the error term
-              deltaErr{kk} = stack{kk+1}.W' * deltaErr{kk+1} .* hAct{kk} .*(1-hAct{kk});
+              deltaErr{kk} = stack{kk+1}.W' * deltaErr{kk+1};
+%               deltaErr{kk} = stack{kk+1}.W' * deltaErr{kk+1} .* hAct{kk} .*(1-hAct{kk});
           end
       end
       

@@ -50,6 +50,8 @@ options.Method = 'lbfgs';
 % Test the accuarcy of the gradients calculated
 average_error = grad_check(@supervised_dnn_cost, params, 40, ei, data_train, labels_train)
 
+keyboard;
+
 %% run training
 [opt_params,opt_value,exitflag,output] = minFunc(@supervised_dnn_cost,...
     params,options,ei, data_train, labels_train);
