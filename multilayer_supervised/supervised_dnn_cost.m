@@ -19,9 +19,6 @@ gradStack = cell(numHidden+1, 1); % cell to store the gradients of each level
 % Define the number of examples in the current batch
 m = size(data,2);
 
-% keyboard;
-
-
 %% forward prop
 %%% YOUR CODE HERE %%%
 % Forward propagation's purpose is to give a hypothesis value for each example for comparison to ground truth
@@ -37,19 +34,19 @@ for ii = 1:size(stack,1)
         
         % Calculate the activations for each neuron
         if strcmp(ei.activation_fun, 'logistic')
-%             keyboard;
             
             hAct{ii} = sigmoid(stack{ii}.W * data + bias);
-%             hAct{ii} = exp(stack{ii}.W*data + bias);
+
         elseif strcmp(ei.activation_fun, 'tanh')
 %             hAct{ii} = ...
         elseif strcmp(ei.activation_fun, 'rectLin')
 %             hAct{ii} = ...
         end
         
+    % The output layer is different because of the softmax regression    
     elseif ii == size(stack,1)
         
-        % The output layer is different because of the softmax regression
+        
         h = exp(stack{ii}.W*hAct{ii-1}); 
         hAct{ii} = bsxfun(@rdivide, h, sum(h,1));
         
@@ -61,7 +58,6 @@ for ii = 1:size(stack,1)
         % Calculate the activations for each neuron
         if strcmp(ei.activation_fun, 'logistic')
             hAct{ii} = sigmoid(stack{ii}.W * hAct{ii-1} + bias);
-%             hAct{ii} = exp(stack{ii}.W * hAct{ii-1} + bias);
         elseif strcmp(ei.activation_fun, 'tanh')
 %             hAct{ii} = ...
         elseif strcmp(ei.activation_fun, 'rectLin')
@@ -90,35 +86,13 @@ end;
 
   % Get the groundTruth associated with the labeled data
   groundTruth = full(sparse(labels, 1:size(data,2), 1));
-  
-%   % Calculate the hypothesized probabilities for each example
-%   h = exp(theta'*hAct{end});
-%   
-%   % Normalize all hypothesized probabilities for each example by dividing by the sum of probabilities for each example
-%   normH = bsxfun(@rdivide, h, sum(h,1));
-  
-%   % Normalize all hypothesized probabilities for each example by dividing by the sum of probabilities for each example
-%   normH = bsxfun(@rdivide, hAct{end}, sum(hAct{end},1));
-% %   normH = bsxfun(@rdivide, hAct{end-1}, sum(hAct{end-1},1));
-  
-% %   % Normalize all the activiations
-% %   for i = 1: length(hAct)
-% %       
-% %       normHAct{i} = bsxfun(@rdivide, hAct{i}, sum(hAct{i},1));
-% %   end
       
   % Calculate the cross-entropy cost function
-%   ceCost = -sum(sum(groundTruth .* log(normH))); % same as f in the softmax example NOTE: We are looking at the average cost/ example in batch
-  ceCost = -sum(sum(groundTruth .* log(hAct{end}))); % Check that hAct sums to 1 along all 10 conditions
-%   keyboard;
-
-  
+  ceCost = -sum(sum(groundTruth .* log(hAct{end})));
   
   
   %% compute gradients using backpropagation
   %%% YOUR CODE HERE %%%
-  
-  % Allocate an empty cell for storage
   
   % Loop through each of the layers starting with the last layer to calculate the deltaErr terms for each of the associated edges
   for kk = size(stack,1):-1:1
@@ -131,10 +105,7 @@ end;
           if strcmp(ei.activation_fun, 'logistic')
               
               % Make the assignment for the error term
-%               keyboard;
-%               deltaErr{kk} = -(groundTruth-normH);
               deltaErr{kk} = -(groundTruth-hAct{kk});
-%               deltaErr{kk} = groundTruth-hAct{kk}.* hAct{kk}.*(1-hAct{kk});
               
           end
           
@@ -145,16 +116,12 @@ end;
           if strcmp(ei.activation_fun, 'logistic')
               
               % Make the assignment for the error term
-%               deltaErr{kk} = stack{kk+1}.W' * deltaErr{kk+1} .* hAct{kk};
-%               keyboard;
               deltaErr{kk} = stack{kk+1}.W' * deltaErr{kk+1} .* hAct{kk} .*(1-hAct{kk});
           end
       end
       
       % CALCULATE THE GRADIENTS
-      % Weights for the input layer --> first hidden layer use the input data as activations
-%       keyboard;
-      
+      % Weights for the input layer --> first hidden layer use the input data as activations  
       if kk == 1
           
           % Compute the associated gradients for W
@@ -164,20 +131,15 @@ end;
       else
           
           % Compute the associated gradients for W
-%           gradStack{kk}.W = -(hAct{kk-1} * deltaErr{kk})';
           gradStack{kk}.W = deltaErr{kk} * hAct{kk-1}';
           
       end
       
       % Compute the associated gradients for b
       gradStack{kk}.b = sum(deltaErr{kk},2);
-%       keyboard;
+
   end
-%% compute weight penalty cost and gradient for non-bias terms
-%%% YOUR CODE HERE %%%
-
-% Compute the gradient for non-bias terms (gradStack.b)
-
+%% compute weight penalty cost
 
 % Initialize a variable for the layer weights
 totalW = 0;
@@ -201,8 +163,6 @@ cost = ceCost + wCost;
 
 %% reshape gradients into vector
 [grad] = stack2params(gradStack);
-
-% keyboard;
 
 end
 
